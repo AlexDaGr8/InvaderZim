@@ -1,0 +1,25 @@
+body {
+  background: #aaa;
+}
+
+.container {
+  width: 800px;
+  transform: rotateZ(90deg) translateX(-100px);
+  border: solid pink;
+}
+.container .pane {
+  height: 50px;
+  width: 70px;
+  border: 3px solid #fff;
+  float: left;
+  margin: 2px;
+  transition: border-radius .2s ease;
+}
+.container .pane:hover {
+  height: 42px;
+  width: 63px;
+  border-radius: 10px;
+  border: 7px solid #fff;
+}
+
+/*# sourceMappingURL=main.css.map */
