@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="forcast.css">
+    </head>
+    <body>
+        <div class="container">
+            <div id="viz"></div>
+        </div>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script src="myLineChart.js"></script>
+        <script src="data.js"></script>
+        <script>
+            var count = [];
+            for (i=0;i<8;i++) count.push(0);
+
+            var datesYo = ["\/Date(1398916800000)\/","\/Date(1400126400000)\/","\/Date(1401595200000)\/","\/Date(1402804800000)\/","\/Date(1404187200000)\/","\/Date(1405396800000)\/","\/Date(1406865600000)\/","\/Date(1408075200000)\/","\/Date(1409544000000)\/","\/Date(1410753600000)\/","\/Date(1412136000000)\/","\/Date(1413345600000)\/","\/Date(1414814400000)\/","\/Date(1416027600000)\/","\/Date(1417410000000)\/","\/Date(1418619600000)\/","\/Date(1420088400000)\/","\/Date(1421298000000)\/","\/Date(1422766800000)\/","\/Date(1423976400000)\/","\/Date(1425186000000)\/","\/Date(1426392000000)\/","\/Date(1427860800000)\/","\/Date(1429070400000)\/","\/Date(1430452800000)\/","\/Date(1431662400000)\/","\/Date(1433131200000)\/","\/Date(1434340800000)\/","\/Date(1435723200000)\/","\/Date(1436932800000)\/","\/Date(1438401600000)\/","\/Date(1439611200000)\/","\/Date(1441080000000)\/","\/Date(1442289600000)\/","\/Date(1443672000000)\/","\/Date(1444881600000)\/","\/Date(1446350400000)\/","\/Date(1447563600000)\/","\/Date(1448946000000)\/","\/Date(1450155600000)\/","\/Date(1451624400000)\/","\/Date(1452834000000)\/","\/Date(1453266000000)\/"];
+            var data = [
+                {
+                    "key" : "Not Started",
+                    "values" : []
+                },
+                {
+                    "key": "Consumer Development",
+                    "values" : []
+                },
+                {
+                    "key": "FAA Test",
+                    "values" : []
+                },
+                {
+                    "key": "SWIM OPS Cutover",
+                    "values" : []
+                },
+                {
+                    "key": "ASDI Disconnect",
+                    "values" : []
+                },
+            ];
+            var data2 = [];
+            for (var d = 0; d < datesYo.length; d++) {
+                $.each(json, function(i,v) {
+                    if (v.Date == datesYo[d]){
+                        count[0] += v.NotStarted;
+                        count[1] += v.RD;
+                        count[2] += v.FNTB;
+                        count[3] += v.OPSCutover;
+                        count[4] += v.Discontinued;
+                    }
+                })
+                data[0].values.push([+datesYo[d].split("(")[1].split(")")[0],count[0]]);
+                data[1].values.push([+datesYo[d].split("(")[1].split(")")[0],count[1]]);
+                data[2].values.push([+datesYo[d].split("(")[1].split(")")[0],count[2]]);
+                data[3].values.push([+datesYo[d].split("(")[1].split(")")[0],count[3]]);
+                data[4].values.push([+datesYo[d].split("(")[1].split(")")[0],count[4]]);
+                count[0] = 0;
+                count[1] = 0;
+                count[2] = 0;
+                count[3] = 0;
+                count[4] = 0;
+            }
+        </script>
+        <script type="text/javascript">
+            console.log(data);
+            
+            var gridLine = d3.chart.gridLine();
+            gridLine.data(data[0].values);
+            gridLine("#viz");
+        </script>
+    </body>
+</html>

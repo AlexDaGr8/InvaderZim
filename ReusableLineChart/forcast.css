@@ -1,0 +1,44 @@
+
+            body {
+                font: 10px sans-serif;
+                background: #bbb;
+            }
+            
+            .container {
+                width: 70%;
+                margin: 5% 10%;
+            }
+            .container #forcast {
+                width: 90%;
+            }
+            
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: #000;
+                shape-rendering: crispEdges;
+            }
+
+            .y.axis path,
+            .x.axis path {
+                display: none;
+            }
+            
+            .axis line {
+                stroke: #000;
+            }
+            
+            .line {
+                fill: none;
+                stroke: steelblue;
+                stroke-width: 2px;
+            }
+            .label {
+                fill: black;
+            }
+            .update {
+                fill: green;
+            }
+            .exit {
+                fill: red;
+            }
