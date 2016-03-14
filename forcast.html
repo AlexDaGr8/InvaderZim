@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="/css/forcast.css">
+    </head>
+    <body>
+        <div class="container">
+            <div id="forcast"></div>
+        </div>
+        <input type="button" id="button" value="click Me">
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <script src="js/myLineChart.js"></script>
+        <script type="text/javascript">
+            var today = 1454043600000,
+                twoWeeks = 6.048e+8 * 2;
+            var data =[];
+            
+            var formateDate = d3.time.format("%x");
+            for (i=0;i<20;i++) {
+                var date = new Date(today);
+                var str = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+                data.push({name: str, value: Math.floor(Math.random() * 20)});
+                today += twoWeeks/2;
+            }
+            
+            var gridLine = d3.chart.gridLine();
+            gridLine.data(data);
+            gridLine("#forcast");
+            
+            $("#button").click(function() {
+               data = [];
+                for (i=0;i<20;i++) {
+                    var date = new Date(today);
+                    var str = (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
+                    data.push({name: str, value: Math.floor(Math.random() * 20)});
+                    today += twoWeeks/2;
+                }
+                gridLine.updateData(data);
+            });
+        </script>
+    </body>
+</html>

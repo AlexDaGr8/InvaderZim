@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap-switch.css">
+    </head>
+    <body>
+        <style>
+          .axis path {
+              fill: none;
+          }
+          .tick text {
+              font-weight: bolder;
+              font-size: 14px;
+          }
+          .cont-marg {
+            width: 80%;
+            margin: 2% auto;
+          }
+        </style>
+
+        <div class="container-fluid cont-marg">
+            <div class="row-fluid">
+                <div class="span12">
+                      <div id="apprvchart" style="width: 1500px; margin-top: -65px; position: relative;" ></div>
+                      <a href="/force.html" style="z-index: 10;">Force Layout</a>
+                </div>
+            </div>
+            <div id="colorGrid"></div>
+            <input name="switch" id="switch-labelText" type="checkbox" data-label-text="Forcast">
+            <input name="forcast" id="forcast" type="checkbox" checked data-on-text="Forcast" data-off-text="Progress">
+        </div>
+        
+
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script src="data/data2.js"></script>
+        <script src="ByApprovalChainD3.js"></script>
+        <scirpt src="js/boostrap.min.js"></scirpt>
+        <script src="js/bootstrap-switch.js"></script>
+        <script>
+            (function() {
+               $.fn.bootstrapSwitch.defaults.onSwitchChange = function(event, state) { console.log(state); };
+               $('input[name="switch"]').bootstrapSwitch('state', true, true);
+               $('input[name="forcast"]').bootstrapSwitch('state', true, true);
+             }).call(this);
+         </script>
+
+    </body>
+</html>

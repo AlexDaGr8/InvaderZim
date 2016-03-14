@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <style>
+          body { background: #222;}
+          .tag {
+            margin-left: 10%;
+            padding: 10px;
+          }
+          a { color: #F29559; }
+        </style>
+    </head>
+    <body>
+        <div class="tag"><a href="/index.html">Home</a></div>
+        <div id="chart"></div>
+
+        <script type="text/javascript">
+        console.log(window.innerWidth);
+
+        var w = window.innerWidth*.99,
+            h = window.innerHeight*.90;
+
+        var color = d3.scale.category10();
+
+        var force = d3.layout.force()
+        .gravity(0)
+        .charge(function(d) { return (-3 * d.r); })
+        .size([w, h]);
+
+        var nodes = force.nodes(),
+            a = {type: 0, x: 1 * w / 5, y: 3 * h / 6, fixed: true, r:0},
+            b = {type: 1, x: 2 * w / 5, y: 3 * h / 6, fixed: true, r:0},
+            c = {type: 2, x: 3 * w / 5, y: 3 * h / 6, fixed: true, r:0},
+            d = {type: 3, x: 4 * w / 5, y: 3 * h / 6, fixed: true, r:0};
+
+        nodes.push(a, b, c, d);
+
+        var svg = d3.select("#chart").append("svg:svg")
+        .attr("width", w)
+        .attr("height", h)
+        //.style("transform", "translate(-10px,0px)")
+        //.style("margin", "3% calc(50% - " + w/2 + "px)")
+        .style("border", "solid");
+
+        svg.selectAll("circle")
+            .data(nodes)
+          .enter().append("circle")
+            .attr("r", 8)
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .style("fill", function(d) { return color(d.type); })
+            .call(force.drag);
+
+        force.on("tick", function(e) {
+          var k = e.alpha * .1;
+          nodes.forEach(function (node) {
+              console.log(nodes[node.type]);
+            var center = nodes[node.type];
+            node.x += (center.x - node.x) * k;
+            node.y += (center.y - node.y) * k;
+          });
+
+        svg.selectAll("circle")
+          .attr("cx", function(d) { return d.x; })
+          .attr("cy", function(d) { return d.y; });
+        });
+
+        var p0;
+
+        svg.on("mousemove", function() {
+          var p1 = d3.mouse(this),
+            node = {type: Math.floor(Math.random() * (4)), x: p1[0], y: p1[1], px: (p0 || (p0 = p1))[0], py: p0[1], r: Math.floor(Math.random() * 20) + 5};
+          p0 = p1;
+
+          svg.append("svg:circle")
+            .data([node])
+            .attr("class", "node")
+            .attr("cx", function(d) { return d.x; })
+            .attr("cy", function(d) { return d.y; })
+            .attr("r", function(d) { return d.r; })
+            .style("fill", function(d) { return color(d.type); })
+          .transition()
+            .delay(3000)
+            .attr("r", 1e-6)
+            .each("end", function() { nodes.splice(5, 1); })
+            .remove();
+
+          nodes.push(node);
+          force.start();
+        });
+
+
+        </script>
+    </body>
+</html>

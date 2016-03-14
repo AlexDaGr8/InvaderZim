@@ -1,0 +1,27 @@
+$width: 800px;
+
+body { background: #aaa; }
+.container {
+  width: $width;
+  transform: rotateZ(90deg) translateX(-$width/8);
+  border: solid pink;
+  .pane {
+      height: 50px;
+      width: 70px;
+      border: 3px solid #fff;
+      float: left;
+      margin: 2px;
+      transition: border-radius .2s ease;
+      &:hover {
+        height: 42px;
+        width: 63px;
+        border-radius: 10px;
+        border: 7px solid #fff;
+      }
+  }
+  //@for $i from 1 through 30 {
+  //  .pane:nth-child(#{$i}) {
+  //    color: nth($colors, $i);
+  //  }
+  //}
+}

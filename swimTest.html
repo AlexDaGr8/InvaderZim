@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <style>
+          body { background: #222;}
+          svg { border: solid purple; }
+        </style>
+    </head>
+    <body>
+
+        <div id="chart"></div>
+
+        <script src="js\HorzontalChart.js"></script>
+        <script src="js\barChart.js"></script>
+        <script type="text/javascript">
+        var data=[
+            {Name:'AL', Children:[{ Value:4786, Name: 'low' }, { Value:1319, Name: 'mid' }, { Value:249 , Name:'high' }]},
+            {Name:'AZ', Children:[{ Value:1101, Name: 'low' }, { Value:412 , Name: 'mid' }, { Value:674 , Name:'high' }]},
+            {Name:'CT', Children:[{ Value:932 , Name: 'low' }, { Value:2149, Name: 'mid' }, { Value:418 , Name:'high' }]},
+            {Name:'DE', Children:[{ Value:832 , Name: 'low' }, { Value:1152, Name: 'mid' }, { Value:1862, Name:'high' }]},
+            {Name:'FL', Children:[{ Value:4481, Name: 'low' }, { Value:3304, Name: 'mid' }, { Value:948 , Name:'high' }]},
+            {Name:'GA', Children:[{ Value:1619, Name: 'low' }, { Value:167 , Name: 'mid' }, { Value:1063, Name:'high' }]},
+            {Name:'IA', Children:[{ Value:1819, Name: 'low' }, { Value:247 , Name: 'mid' }, { Value:1203, Name:'high' }]},
+            {Name:'IL', Children:[{ Value:4498, Name: 'low' }, { Value:3852, Name: 'mid' }, { Value:942 , Name:'high' }]},
+            {Name:'IN', Children:[{ Value:797 , Name: 'low' }, { Value:1849, Name: 'mid' }, { Value:1534, Name:'high' }]},
+            {Name:'KS', Children:[{ Value:162 , Name: 'low' }, { Value:379 , Name: 'mid' }, { Value:471 , Name:'high' }]}
+            ];
+            data.forEach(function(d) {
+              var total = 0;
+              d.Children.forEach(function(d) {
+                total += d.Value;
+              });
+              d.Value = total;
+            });
+
+
+          var w = window.innerWidth * .9, h = 800;
+
+          var svg = d3.select("#chart").append("svg")
+            .attr({width: w, height: h})
+            .style("margin", "3% calc(50% - " + w/2 + "px)");
+
+          var barGroup = svg.append("g")
+          .style("transform", "translate(" + (w - (w*.95))/2 +"px, 10px)");
+
+          barChart(barGroup,data,w*0.95);
+
+
+          var chartGroup = svg.append("g")
+          .style("transform", "translate(" + (w - (w*.95))/2 +"px, 600px)");
+
+          var chart = d3.chart.percentage();
+          chart.data(data);
+          chart.width(w*.95);
+          chart(chartGroup);
+
+          function updateWindow(){
+              x = window.innerWidth * .9;
+              svg
+                .attr({width: x, height: h})
+                .style("margin", "3% calc(50% - " + x/2 + "px)");
+              chartGroup.style("transform", "translate(" + (x - (x*.95))/2 +"px, 10px)");
+              chart.destroy(x*.95);
+          }
+
+          window.onresize  = updateWindow;
+        </script>
+    </body>
+</html>

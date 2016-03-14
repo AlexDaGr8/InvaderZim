@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/infiniteLoader.css">
+        <link rel="stylesheet" href="css/flipLoader.css">
+        <link rel="stylesheet" href="css/dots.css">
+        <style>
+          .modal-progress {
+            box-shadow: 0px 0px 20px 5px black;
+            border-radius: 3px;
+            padding-top: 10px
+          }
+
+          .modal-progress.flip {
+            height: 17vh;
+            width: 24vw;
+            margin: 3% calc(50% - 12vw);
+          }
+
+          .modal-progress.infinite {
+            height: 25vh;
+            width: 20vw;
+            margin: 3% calc(50% - 10vw);
+          }
+
+          .modal-progress.dots-wrapper {
+            height: 10vh;
+            width: 30vw;
+            margin: 3% calc(50% - 15vw);
+            border: solid;
+          }
+
+          .modal-progress h1 {
+              margin-top: 3px;
+              margin-left: auto;
+              margin-right: auto;
+              width: 8.5vw;
+          }
+        </style>
+
+    </head>
+    <body>
+
+        <div class="modal-progress flip">
+         <div class="wrapper">
+             <div class="side front"><div class="text">L</div></div>
+             <div class="side back"><div class="text">L</div></div>
+             <div class="side front"><div class="text">o</div></div>
+             <div class="side back"><div class="text">o</div></div>
+             <div class="side front"><div class="text">a</div></div>
+             <div class="side back"><div class="text">a</div></div>
+             <div class="side front"><div class="text">d</div></div>
+             <div class="side back"><div class="text">d</div></div>
+             <div class="side front"><div class="text">i</div></div>
+             <div class="side back"><div class="text">i</div></div>
+             <div class="side front"><div class="text">n</div></div>
+             <div class="side back"><div class="text">n</div></div>
+             <div class="side front"><div class="text">g</div></div>
+             <div class="side back"><div class="text">g</div></div>
+         </div>
+       </div>
+
+      <div class="modal-progress infinite">
+        <h1>Loading</h1>
+        <div class="loader-wrapper">
+            <div class="loader">
+                <div class="roller"></div>
+                <div class="roller"></div>
+            </div>
+            <div id="loader2" class="loader">
+                <div class="roller"></div>
+                <div class="roller"></div>
+            </div>
+            <div id="loader3" class="loader">
+                <div class="roller"></div>
+                <div class="roller"></div>
+            </div>
+            <div id="loader4" class="loader">
+                <div class="roller"></div>
+                <div class="roller"></div>
+            </div>
+        </div>
+      </div>
+
+
+      <div class="modal-progress dots-wrapper">
+        <h1>Loading</h1>
+        <div class="dots animate">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
+    </body>
+</html>
