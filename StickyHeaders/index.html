@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <style>
+            .wrapper {
+                width: 70%;
+                margin: 5% calc(50% - 35%);
+            }
+            #sticky-header {
+                position: fixed;
+                top: 0px;
+                width: 70%;
+                overflow: hidden;
+                visibility: hidden;
+            }
+            #sticky-header table thead {
+                background: white;
+            }
+        </style>
+        <div class="wrapper">
+            <div id="mainTable" class="sticky-head-main">
+                <table class="table table-hover"></table>
+            </div>
+        </div>
+        <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+        <script>
+            var mainTable = $("#mainTable table");
+            $.get("Events.tsv", function(d) {
+                var str = "";
+                var lines = d.split("\n");
+                var thead = $("<thead/>").appendTo(mainTable);
+                var tbody = $("<tbody/>").appendTo(mainTable);
+                $.each(lines, function(i,line) {
+                   str += i + "- " + line + "<br>"; 
+                   if (i == 0) {
+                       var tr = $("<tr/>").appendTo(thead);
+                       $.each(splitLine(line), function(j,word) {
+                       var th = $("<th/>").appendTo(tr);
+                           th.html(word);
+                       });
+                   }
+                   else {
+                       var tr = $("<tr/>").appendTo(tbody);
+                       $.each(splitLine(line), function(j,word) {
+                       var td = $("<td/>").appendTo(tr);
+                           td.html(word);
+                       });
+                   }
+                });
+            })
+            .done(function() {
+                stickyHeader()
+                });
+                
+            var stickyHeadClone;
+            var stickyHeader = function(id) {
+                stickyHeadClone = $("<div/>").insertAfter("#mainTable");
+                stickyHeadClone.attr("id","sticky-header").addClass("sticky-head-clone");
+                mainTable.clone().appendTo(stickyHeadClone);
+                stickyHeadClone.css("height", stickyHeadClone.find("table thead").height() + "px");
+            }
+            
+            var splitLine = function(line) {
+                var words = line.split('\t');
+                return words;
+            }
+            
+            $(window).scroll(function(){
+                var toTop = mainTable.offset().top - $(window).scrollTop();
+                if (toTop < 0) { stickyHeadClone.css("visibility", "visible"); }
+                else stickyHeadClone.css("visibility", "hidden");
+            });
+            
+        </script>
+    </body>
+</html>

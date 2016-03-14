@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <style>
+            body { background: #c1cad6; }
+            svg { border: 2px solid green; margin: 10% calc(50% - 400px/2); }
+            .axis path,
+            .axis line {
+                fill: none;
+                stroke: #000;
+                shape-rendering: crispEdges;
+            }
+        </style>
+        <script src="d3.min.js"></script>
+        <script>
+            var dates = [], jsonData = [];
+            for (var d = new Date(2014,4,1); d < Date.now(); d.setDate(d.getDate() + 1)) {
+            var date = new Date(d);
+            if (date.getDate() == 1 || date.getDate() == 15)
+                dates.push(new Date(d));
+            }
+            var asdiData = [
+                {name:"NotStarted",values:[]},
+                {name:"R&D",values:[]},
+                {name:"FNTB",values:[]},
+                {name:"OPSCutover",values:[]},
+                {name:"Discontinued",values:[]}
+            ];
+            d3.json("data.json",function(dat) { 
+                var counts = [0,0,0,0,0];
+                dates.forEach(function(date){
+                    dat.ASDITransition.forEach(function(asdi){
+                        var asdiDate = new Date(+asdi.Date.split("(")[1].split(")")[0]);
+                        var checkDate = new Date(date);
+                        if (asdiDate.getTime() === checkDate.getTime()) {
+                            counts[0] += asdi.NotStarted;
+                            counts[1] += asdi.RD;
+                            counts[2] += asdi.FNTB;
+                            counts[3] += asdi.OPSCutover;
+                            counts[4] += asdi.Discontinued;
+                        }
+                    });
+                   asdiData[0].values.push([new Date(date), counts[0]]);
+                   asdiData[1].values.push([new Date(date), counts[1]]);
+                   asdiData[2].values.push([new Date(date), counts[2]]);
+                   asdiData[3].values.push([new Date(date), counts[3]]);
+                   asdiData[4].values.push([new Date(date), counts[4]]);
+                   counts = [0,0,0,0,0];
+                }); 
+            });
+            
+            
+            var data = [];
+            for(i=0;i<20;i++) data.push([Math.floor(Math.random() * 20),Math.floor(Math.random() * 50)]);
+            var margin = {left: 40, top: 40, right: 40, bottom: 40},
+                width = 950 - margin.left - margin.right,
+                height = 500 - margin.top - margin.bottom;
+                
+            var xTime = d3.time.scale()
+                .range([0,width])
+                .domain(d3.extent(asdiData[0].values, function(d) { console.log(d); return d[0]; }));
+                
+            var x = d3.scale.linear()
+                .range([0, width])
+                .domain([0,20]);
+                
+            var y = d3.scale.linear()
+                .range([height, 0])
+                .domain([0,50]);
+                
+            var xAxis = d3.svg.axis()
+                .scale(x).orient("bottom");
+                
+            var yAxis = d3.svg.axis()
+                .scale(y).orient("left");
+                
+            var svg = d3.select("body").append("svg")
+                .attr({width: width + margin.left + margin.right, height: height + margin.top + margin.bottom})
+                .style("margin", "3% calc(50% - " + (width + margin.left + margin.right) + "px/2)")
+                .append("g").style("transform", "translate("+margin.left+"px,"+margin.top+"px)");
+                
+            var axis_x = svg.append("g")
+                .attr("class", "x axis")
+                .call(xAxis)
+                .style("transform", "translate(0,"+height+"px)");
+           var axis_y = svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis);
+           
+           var circles = svg.selectAll("circle")
+                .data(data).enter()
+                .append("circle")
+                .attr({
+                    r: 5,
+                    cx: function(d,i) { return x(d[0]); },
+                    cy: function(d,i) { return y(d[1]); }
+                })
+                .style({ 
+                    fill: "#856084",
+                    stroke: "#84E296",
+                    "stroke-width": 2,
+                });
+        </script>
+    </body>
+</html>
